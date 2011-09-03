@@ -22,15 +22,21 @@ class Controller < Autumn::Leaf
   
   def createproject_command(stem, sender, reply_to, msg)
     
-    var params = msg.split(',')
-    var name = params[0]
-    var code = params[1]
+    params = msg.split(',')
+    name = params[0]
+    code = params[1]
     
-    @project = Project.create(
-      :name => name,
-      :code => code,
-      :create_at => Time.now
-    ) 
+    if name.length > 0
+      if code.length > 0 
+        @project = Project.create(
+          :name => name,
+          :code => code,
+          :create_at => Time.now
+        )
+      end
+    end
+    
+     
     
   end
   
