@@ -28,22 +28,19 @@ class Controller < Autumn::Leaf
     
     if name.length > 0
       if code.length > 0 
-        @project = Project.create(
+        project = Project.create(
           :name => name,
           :code => code,
-          :create_at => Time.now
+          :created_at => Time.now
         )
       end
     end
     
-     
-    
+    var :project => project
   end
   
   def listprojects_command(stem, sender, reply_to, msg)
-    
     var :projects => Project.all
-    
   end
   
 end
