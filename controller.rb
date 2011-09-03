@@ -9,14 +9,35 @@ class Controller < Autumn::Leaf
   end
 
   def task_command(stem, sender, reply_to, msg)
-        nameend = msg.index(' ') - 1
-        name = msg.slice!(0..nameend)
-        if users(reply_to).include?(name)
-           name + ' is currently online'
-        else
-	   name + ' is not currently online'
-        end
+    nameend = msg.index(' ') - 1
+    name = msg.slice!(0..nameend)
+    if users(reply_to).include?(name)
+       name + ' is currently online'
+    else
+      name + ' is not currently online'
+    end
 
-        msg.strip!()
+    msg.strip!
   end
+  
+  def createproject_command(stem, sender, reply_to, msg)
+    
+    var params = msg.split(',')
+    var name = params[0]
+    var code = params[1]
+    
+    @project = Project.create(
+      :name => name,
+      :code => code,
+      :create_at => Time.now
+    ) 
+    
+  end
+  
+  def listprojects_command(stem, sender, reply_to, msg)
+    
+    var projects = Projects.all
+    
+  end
+  
 end
