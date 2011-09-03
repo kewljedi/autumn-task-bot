@@ -36,7 +36,7 @@ class Controller < Autumn::Leaf
   
   def listprojects_command(stem, sender, reply_to, msg)
     
-    var projects = Projects.all
+    var :projects => Project.all
     
   end
   
