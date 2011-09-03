@@ -25,7 +25,7 @@ class Controller < Autumn::Leaf
     params = msg.split(',')
     name = params[0]
     code = params[1]
-    
+
     if name.length > 0
       if code.length > 0 
         project = Project.create(
