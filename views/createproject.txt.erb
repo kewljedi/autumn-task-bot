@@ -1,1 +1,6 @@
-The project name <%= var(project).name %> has been create with: id-> <%= var(project).id %> code -> <%= var(project).code %>.
+<% if var(project).nil? %>
+	Usage: !create project "{name}", "{short abbreviation}"
+	Both parameters are required.
+<% else %>
+	The project name <%= var(project).name %> has been create with: id-> <%= var(project).id %> code -> <%= var(project).code %>.
+<% end %>
