@@ -1,4 +1,4 @@
-<%='id'.center(3) + "|" + 'code'.center(10) + "|" + 'name'.center(30) %>
+<%='id'.center(3) + '|' + 'code'.center(10) + '|' + 'name'.center(30) %>
 <% var(:projects).each do |project| %>
 		<%= project.id.to_s.center(3) + '|' + project.code.center(10) + '|' + project.name.center(30) %>
 <% end %>
