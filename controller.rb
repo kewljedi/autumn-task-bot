@@ -9,15 +9,26 @@ class Controller < Autumn::Leaf
   end
 
   def task_command(stem, sender, reply_to, msg)
+    
+    createuser = findOrCreateUser(sender)
+    
+    #the name of the person to be assigned the task
     nameend = msg.index(' ') - 1
-    name = msg.slice!(0..nameend)
-    if users(reply_to).include?(name)
-       name + ' is currently online'
-    else
-      name + ' is not currently online'
-    end
+    name = msg.slice!(0..nameend).strip!
+    
+    #the name of the project to be assigned the task
+    projectend = msg.index(' ') - 1 
+    projectname = msg.slice!(0..projectend).strip!
+    project = Project.find(:code=>projectname)
+    
+    task.new
+    task.project = project
+    task.body = msg
+    task.user = createuser
+    task.created_at = Time.now
+    task.save
 
-    msg.strip!
+    var :task => task
   end
   
   def createproject_command(stem, sender, reply_to, msg)
@@ -28,11 +39,16 @@ class Controller < Autumn::Leaf
 
     if name.length > 0
       if code.length > 0 
+        
+        user = findOrCreateuser(sender)
+        
         project = Project.create(
           :name => name,
           :code => code,
-          :created_at => Time.now
+          :created_at => Time.now,
+          :user => user
         )
+        
       end
     end
     
@@ -41,6 +57,31 @@ class Controller < Autumn::Leaf
   
   def listprojects_command(stem, sender, reply_to, msg)
     var :projects => Project.all
+  end
+  
+  #we want to record everything that was said by someone other than the bot
+  def did_receive_channel_message(sender, channel, msg)
+    
+    if(sender[:nick] != 'STTI')
+      
+      user = findOrCreateUser(sender)
+      
+      Message.create(
+        :body=>msg,
+        :created_at=>Time.now,
+        :user=>user
+      )
+    end
+    
+  end
+  
+  #we want to go ahead and grant op to anyone that has it in the database.
+  def irc_join_event(stem, sender, arguments) 
+    
+    user = findOrCreateUser(sender)
+    if(user.op)
+      grant_user_privilege stem.channels[0], sender[:nick], :operator
+    end
   end
   
 end
