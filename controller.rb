@@ -40,7 +40,7 @@ class Controller < Autumn::Leaf
     if name.length > 0
       if code.length > 0 
         
-        user = findOrCreateuser(sender)
+        user = findOrCreateUser(sender)
         
         project = Project.create(
           :name => name,
@@ -76,11 +76,12 @@ class Controller < Autumn::Leaf
   end
   
   #we want to go ahead and grant op to anyone that has it in the database.
-  def irc_join_event(stem, sender, arguments) 
+  def someone_did_join_channel(stem, person, channel)
     
-    user = findOrCreateUser(sender)
+    user = findOrCreateUser(person)
+    
     if(user.op)
-      grant_user_privilege stem.channels[0], sender[:nick], :operator
+      grant_user_privilege channel, person[:nick], :operator
     end
   end
   
