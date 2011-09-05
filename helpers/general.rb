@@ -1,12 +1,13 @@
 module GeneralHelper
   def findOrCreateUser(sender)
+   
     username = sender[:user]
     
     if(username.nil?)
       username = sender[:nick]
     end
     
-    user = User.find(:username=>username)
+    user = User.first(:username=>username)
     if(!user)
       #ok we need to create this user
       user = User.new

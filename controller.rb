@@ -60,11 +60,11 @@ class Controller < Autumn::Leaf
   end
   
   #we want to record everything that was said by someone other than the bot
-  def did_receive_channel_message(sender, channel, msg)
+  def did_receive_channel_message(stem, sender, channel, msg)
     
     if(sender[:nick] != 'STTI')
       
-      user = findOrCreateUser(sender)
+      user = findOrCreateUser(sender[:user])
       
       Message.create(
         :body=>msg,
