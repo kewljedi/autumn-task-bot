@@ -80,11 +80,17 @@ class Controller < Autumn::Leaf
     
     user = findOrCreateUser(person)
     
-    if(user.op)
+    if(user.op?)
       grant_user_privilege channel, person[:nick], :operator
     end
   end
-  
+
+  def will_start_up
+ 
+     self.oper "sttibot", "mrroboto"
+      #nick "sttibot"
+
+  end
 end
 
 
